@@ -19,6 +19,16 @@ public class PubCommonConst {
     public static final String STR_LOGIC_FLASE = "0";
 
 
+    /**
+     * 字符集 UTF-8
+     */
+    public static final String UTF_8 = "UTF-8";
+
+    /**
+     * 字符集 GBK
+     */
+    public static final String GBK = "GBK";
+
 
 
 }

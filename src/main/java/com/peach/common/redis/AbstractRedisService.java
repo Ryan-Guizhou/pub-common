@@ -1,9 +1,10 @@
 package com.peach.common.redis;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
+
+import javax.annotation.Resource;
 
 /**
  * @Author Mr Shu
@@ -13,7 +14,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
  */
 public abstract class AbstractRedisService<K, V> {
 
-    @Autowired
+    @Resource
     protected RedisTemplate<K, V> redisTemplate;
 
     /**

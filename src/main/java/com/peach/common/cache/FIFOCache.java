@@ -1,6 +1,7 @@
 package com.peach.common.cache;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Indexed;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import java.util.LinkedHashMap;
 @Slf4j
 @Indexed
 @Service
+//@ConditionalOnProperty(prefix = "localCache.enableCache",name = "type" ,havingValue = "FIFO" ,matchIfMissing = false)
 public class FIFOCache<K, V> extends AbstractCacheMap<K, V> {
 
 
@@ -26,7 +28,7 @@ public class FIFOCache<K, V> extends AbstractCacheMap<K, V> {
      * @param cacheSize
      * @param defaultExpire
      */
-    public FIFOCache(int cacheSize, long defaultExpire) {
+    public FIFOCache(@Value("${localCache.cacheSize:5}") int cacheSize, @Value("${localCache.defaultExpire:3000}") long defaultExpire) {
         super(cacheSize, defaultExpire);
         cacheMap = new LinkedHashMap<K, CacheObject<K, V>>(cacheSize + 1, 1F, false);
     }

@@ -4,14 +4,17 @@ import com.peach.common.anno.cache.Cacheable;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 @Aspect
 @Component
+@ConditionalOnProperty(name = "localCache.enableCache", matchIfMissing = true,havingValue = "true")
 public class CacheAspect {
 
-    @Autowired
+    @Resource
     private CacheMap cacheMap;
 
     @Around("@annotation(cacheable)")

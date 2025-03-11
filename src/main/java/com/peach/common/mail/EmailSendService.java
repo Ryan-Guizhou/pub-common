@@ -2,14 +2,14 @@ package com.peach.common.mail;
 
 import com.peach.common.config.EmailConfig;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
 import java.io.File;
@@ -23,13 +23,13 @@ import java.util.List;
  */
 @Slf4j
 @Component
+@ConditionalOnProperty(name = "email.enable",havingValue = "true" ,matchIfMissing = true)
 public class EmailSendService {
 
-    @Autowired
-    @Qualifier("mailSender")
+    @Resource
     private JavaMailSender mailSender;
 
-    @Autowired
+    @Resource
     private EmailConfig emailProps;
 
     /**

@@ -10,9 +10,10 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @Description 缓存map抽象实现
  * @CreateTime 2024/10/12 18:35
  */
+
 public abstract class AbstractCacheMap<K, V> implements CacheMap<K, V> {
 
-    class CacheObject<K2, V2> {
+    static class CacheObject<K2, V2> {
         CacheObject(K2 key, V2 value, long liveTime) {
             this.key = key;
             this.cachedObject = value;

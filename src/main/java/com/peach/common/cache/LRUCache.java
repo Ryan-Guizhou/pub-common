@@ -1,6 +1,8 @@
 package com.peach.common.cache;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Indexed;
 import org.springframework.stereotype.Service;
 
@@ -18,15 +20,16 @@ import java.util.Map;
 @Slf4j
 @Indexed
 @Service
+@ConditionalOnProperty(prefix = "localCache.enableCache",name = "type" ,havingValue = "LRU" ,matchIfMissing = false)
 public class LRUCache<K, V> extends AbstractCacheMap<K, V> {
 
     /**
      * 构造方法
-     * 
+     *
      * @param cacheSize
      * @param defaultExpire
      */
-    public LRUCache(int cacheSize, long defaultExpire) {
+    public LRUCache(@Value("${localCache.cacheSize}") int cacheSize, @Value("${localCache.defaultExpire}") long defaultExpire) {
 
         super(cacheSize, defaultExpire);
 
@@ -49,7 +52,7 @@ public class LRUCache<K, V> extends AbstractCacheMap<K, V> {
 
     /**
      * 插入元素时是否需要移除最老的元素(超过缓存大小时)
-     * 
+     *
      * @param eldest
      * @return
      */

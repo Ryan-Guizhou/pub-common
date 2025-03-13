@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.mongodb.BasicDBObject;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.result.DeleteResult;
@@ -38,10 +37,7 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
     public MongoCollection<Document> getDBCollection(String collectionName) {
         return COLLECTION_CACHE.get(collectionName, key -> {
             MongoCollection<Document> collection = mongoTemplate.getCollection(collectionName);
-            if (collection != null){
-                return collection;
-            }
-            return null;
+            return collection;
         });
     }
 
@@ -91,14 +87,7 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
         try (MongoCursor<Document> cursor = getDBCollection(collectionName)
                 .find()
                 .iterator()) {  // 使用 try-with-resources 确保游标关闭
-            while (cursor.hasNext()) {
-                Document document = cursor.next();
-                document.put("_id", document.get("id", "").toString());
-                document.put("createTime", DateUtil.formatDate(document.getDate("createTime")));
-                document.put("updateTime", DateUtil.formatDate(document.getDate("updateTime")));
-                resultList.add(document);
-            }
-            return resultList;
+            return improveDocuments(resultList, cursor);
         }
     }
 
@@ -136,7 +125,6 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
 
     @Override
     public PageInfo<T> findPageList(String collectionName, Document query, Document sort, Document projection, PageInfo<T> pageInfo, Class<T> clz) {
-        FindIterable<Document> documentIterable;
         try {
             MongoCollection<Document> collection = getDBCollection(collectionName);
     
@@ -154,6 +142,7 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
             pageInfo.setPages(pages);
 
             // 处理分页查询
+            assert query != null;
             try (MongoCursor<Document> cursor = collection.find(query)
                     .sort(sort)
                     .projection(projection)
@@ -164,7 +153,7 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
                 
                 while (cursor.hasNext()) {
                     Document document = cursor.next();
-                    document.put("_id", document.get("id", "").toString());
+                    document.put("_id", document.get("id", ""));
                     document.put("createTime", DateUtil.formatDate(document.getDate("createTime")));
                     document.put("updateTime", DateUtil.formatDate(document.getDate("updateTime")));
                     T t = JSON.parseObject(document.toJson(), clz);
@@ -194,7 +183,7 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
 
                 while (cursor.hasNext()) {
                     Document document = cursor.next();
-                    document.put("_id", document.get("id", "").toString());
+                    document.put("_id", document.get("id", ""));
                     document.put("createTime", DateUtil.formatDate(document.getDate("createTime")));
                     document.put("updateTime", DateUtil.formatDate(document.getDate("updateTime")));
                     T t = JSON.parseObject(document.toJson(), clz);
@@ -209,6 +198,7 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
         }
     }
 
+
     @Override
     public List<Document> findList(String collectionName, Document query, Document sort, Document projection) {
         List<Document> resultList = Lists.newArrayList();
@@ -221,14 +211,7 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
                     .projection(projection)
                     .iterator()) {  // 使用 try-with-resources 确保游标关闭
 
-                while (cursor.hasNext()) {
-                    Document document = cursor.next();
-                    document.put("_id", document.get("id", "").toString());
-                    document.put("createTime", DateUtil.formatDate(document.getDate("createTime")));
-                    document.put("updateTime", DateUtil.formatDate(document.getDate("updateTime")));
-                    resultList.add(document);
-                }
-                return resultList;
+                return improveDocuments(resultList, cursor);
             }
         } catch (Exception e) {
             log.error("findPageList error params,collectionName is:[{}],query:[{}],sort:[{}],projection:[{}]", collectionName,query,sort, projection);
@@ -240,7 +223,7 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
 
     @Override
     public long replaceOne(String collectionName, Document query, Document replacement) {
-        long modifiedCount =  0;
+        long modifiedCount;
         try {
             UpdateResult updateResult = getDBCollection(collectionName).replaceOne(query, replacement);
             modifiedCount = updateResult.getModifiedCount();
@@ -264,7 +247,7 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
 
     @Override
     public long updateOne(String collectionName, Document query, Document document) {
-        long modifiedCount = 0L;
+        long modifiedCount;
         try {
             UpdateResult updateResult = getDBCollection(collectionName).updateOne(query, document);
             modifiedCount = updateResult.getModifiedCount();
@@ -277,7 +260,7 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
 
     @Override
     public long updateMany(String collectionName, Document query, Document document) {
-        long modifiedCount = 0L;
+        long modifiedCount;
         try {
             UpdateResult updateResult = getDBCollection(collectionName).updateMany(query, document);
             modifiedCount = updateResult.getModifiedCount();
@@ -290,7 +273,7 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
 
     @Override
     public long deleteOne(String collectionName, Document query) {
-        long deletedCount = 0L;
+        long deletedCount;
         try {
             DeleteResult deleteResult = getDBCollection(collectionName).deleteOne(query);
             deletedCount = deleteResult.getDeletedCount();
@@ -303,7 +286,7 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
 
     @Override
     public long deleteMany(String collectionName, Document query) {
-        long deletedCount = 0L;
+        long deletedCount;
         try {
             DeleteResult deleteResult = getDBCollection(collectionName).deleteMany(query);
             deletedCount = deleteResult.getDeletedCount();
@@ -329,14 +312,7 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
                     .skip(skip)
                     .limit(limit)
                     .iterator()) {  // 使用 try-with-resources 确保游标关闭
-                while (cursor.hasNext()) {
-                    Document document = cursor.next();
-                    document.put("_id", document.get("id", "").toString());
-                    document.put("createTime", DateUtil.formatDate(document.getDate("createTime")));
-                    document.put("updateTime", DateUtil.formatDate(document.getDate("updateTime")));
-                    resultList.add(document);
-                }
-                return resultList;
+                return improveDocuments(resultList, cursor);
             }
         } catch (Exception e) {
             log.error("findPageList error params,collectionName is:[{}],query:[{}],sort:[{}],skip:[{}],limit:[{}]", collectionName,query, projection,skip,limit);
@@ -345,9 +321,10 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
         }
     }
 
+
     @Override
     public long updateBatchId(String collectionName, List queryArgs, Document update) {
-        long modifiedCount = 0L;
+        long modifiedCount;
         try {
             Document query = new Document().append("_id", new BasicDBObject().append("$in", queryArgs.toArray()));
             UpdateResult updateResult = getDBCollection(collectionName).updateMany(query, update);
@@ -370,6 +347,21 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
         return true;
     }
 
-
+    /**
+     * 完善Document
+     * @param resultList 返回对象
+     * @param cursor     游标
+     * @return
+     */
+    private List<Document> improveDocuments(List<Document> resultList, MongoCursor<Document> cursor) {
+        while (cursor.hasNext()) {
+            Document document = cursor.next();
+            document.put("_id", document.get("id", ""));
+            document.put("createTime", DateUtil.formatDate(document.getDate("createTime")));
+            document.put("updateTime", DateUtil.formatDate(document.getDate("updateTime")));
+            resultList.add(document);
+        }
+        return resultList;
+    }
 
 }

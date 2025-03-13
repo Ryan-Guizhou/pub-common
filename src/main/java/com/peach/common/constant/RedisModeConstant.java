@@ -6,20 +6,20 @@ package com.peach.common.constant;
  * @Description //TODO
  * @CreateTime 2024/10/10 16:16
  */
-public class RedisModeConstant {
+public interface RedisModeConstant {
 
     /**
      * 单级模式
      */
-    public static final String STANDALONE = "standalone";
+    String STANDALONE = "standalone";
 
     /**
      * 哨兵模式
      */
-    public static final String SENTINEL = "sentinel";
+    String SENTINEL = "sentinel";
 
     /**
      * 集群模式
      */
-    public static final String CLUSTER = "cluster";
+    String CLUSTER = "cluster";
 }

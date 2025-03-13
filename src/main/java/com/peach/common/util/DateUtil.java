@@ -1,6 +1,5 @@
 package com.peach.common.util;
 
-import com.peach.common.util.StringUtil;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -18,7 +17,7 @@ import java.util.regex.Pattern;
 /**
  * @Author Mr Shu
  * @Version 1.0.0
- * @Description // 拒绝策略代理
+ * @Description // 时间格式化工具类
  * @CreateTime 2024/10/10 15:22
  */
 public class DateUtil {

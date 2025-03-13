@@ -505,7 +505,7 @@ public class StringUtil implements Serializable {
     public static String formatStrList( List<String> strs, String separator, Integer limit) {
         if (isEmpty(separator)) separator = COMMA;
         StringBuffer res = new StringBuffer();
-        if (PeachCollectionUtils.isNotEmpty(strs)) {
+        if (PeachCollectionUtil.isNotEmpty(strs)) {
             for (int i = 0; i < strs.size(); i++) {
                 String s = strs.get(i);
                 if (limit != 0 && i == limit){

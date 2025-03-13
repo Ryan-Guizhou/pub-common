@@ -6,28 +6,28 @@ package com.peach.common.constant;
  * @Description //TODO
  * @CreateTime 2024/10/12 18:34
  */
-public class PubCommonConst {
+public interface PubCommonConst {
 
-    public static final String FILE_SEPARATOR = System.getProperty("file.separator");
+    String FILE_SEPARATOR = System.getProperty("file.separator");
 
-    public static final Integer LOGIC_TRUE = 1;
+    Integer LOGIC_TRUE = 1;
 
-    public static final Integer LOGIC_FLASE = 0;
+    Integer LOGIC_FLASE = 0;
 
-    public static final String STR_LOGIC_TRUE = "1";
+    String STR_LOGIC_TRUE = "1";
 
-    public static final String STR_LOGIC_FLASE = "0";
+    String STR_LOGIC_FLASE = "0";
 
 
     /**
      * 字符集 UTF-8
      */
-    public static final String UTF_8 = "UTF-8";
+    String UTF_8 = "UTF-8";
 
     /**
      * 字符集 GBK
      */
-    public static final String GBK = "GBK";
+    String GBK = "GBK";
 
 
 

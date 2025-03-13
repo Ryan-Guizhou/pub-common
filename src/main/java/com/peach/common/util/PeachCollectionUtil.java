@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * @Description //借用spring的集合工具类的便利，补全一下反向判断
  * @CreateTime 2024/10/14 15:51
  */
-public class PeachCollectionUtils extends CollectionUtils {
+public class PeachCollectionUtil extends CollectionUtils {
 
     private static ObjectMapper MAPPER = new ObjectMapper();
 
@@ -245,7 +245,7 @@ public class PeachCollectionUtils extends CollectionUtils {
         //过滤当前工作节点代码的下级
         List<String> resCodes = sortedCodes.stream().filter(s -> s.startsWith(workCode) && !s.equals(srcCode) && !s.equals(workCode)).collect(Collectors.toList());
         //如果存在下级就继续匹配
-        if (PeachCollectionUtils.isNotEmpty(resCodes)) {
+        if (PeachCollectionUtil.isNotEmpty(resCodes)) {
             //暂时将第一个节点作为结果
             resCode = resCodes.stream().findFirst().get();
             //如果存在多个节点递归继续匹配

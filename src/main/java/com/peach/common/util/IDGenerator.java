@@ -2,6 +2,12 @@ package com.peach.common.util;
 
 import cn.hutool.core.lang.UUID;
 
+/**
+ * @Author Mr Shu
+ * @Version 1.0.0
+ * @Description // UUID生成器
+ * @CreateTime 2024/10/10 15:22
+ */
 public class IDGenerator {
     public static String id() {
         return MajorKeyFactory.instance.getMajorKey();

@@ -16,12 +16,12 @@ public enum ModuleEnum {
     /**
      * 模块编码
      */
-    private String moduleCode;
+    private final String moduleCode;
 
     /**
      * 模块名称
      */
-    private String moduleName;
+    private final String moduleName;
 
     ModuleEnum(String moduleCode, String moduleName) {
         this.moduleCode = moduleCode;

@@ -39,7 +39,7 @@ public class EntityGenerator {
                 primaryKeySet.add(primaryKeys.getString("COLUMN_NAME"));
             }
 
-            StringBuffer fields = new StringBuffer();
+            StringBuilder fields = new StringBuilder();
             String createTime = new SimpleDateFormat("yyyy/MM/dd HH:mm").format(new Date());
 
 
@@ -54,7 +54,7 @@ public class EntityGenerator {
             fields.append(" * @Author Mr Shu").append(lineSeparator);
             fields.append(" * @Version 1.0.0").append(lineSeparator);
             fields.append(" * @Description //TODO").append(lineSeparator);
-            fields.append(" * @CreateTime ").append(createTime).append("").append(lineSeparator);
+            fields.append(" * @CreateTime ").append(createTime).append(lineSeparator);
             fields.append(" */").append(lineSeparator);
 
             fields.append("@Data").append(lineSeparator);

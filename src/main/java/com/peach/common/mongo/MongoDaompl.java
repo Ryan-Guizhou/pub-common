@@ -13,6 +13,8 @@ import com.peach.common.util.DateUtil;
 import com.peach.common.util.PeachCollectionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Indexed;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +33,7 @@ import java.util.Set;
 @Slf4j
 @Indexed
 @Service
+@ConditionalOnBean(MongoTemplate.class)
 public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T> {
 
     @Override

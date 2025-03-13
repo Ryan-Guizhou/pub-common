@@ -18,15 +18,15 @@ import java.util.*;
 public class MapperGenerator {
 	private static final String lineSeparator = System.lineSeparator();
 
-	private static String INSERT_SELECTIVE_COLUMN_SQL = "insertSelectiveColumn";
+	private static final String INSERT_SELECTIVE_COLUMN_SQL = "insertSelectiveColumn";
 
-	private static String INSERT_SELECTIVE_VALUE_SQL = "insertSelectiveValue";
+	private static final String INSERT_SELECTIVE_VALUE_SQL = "insertSelectiveValue";
 
-	private static String UPDATE_SELECTIVE_COLUMN_SQL = "updateSelectiveColumn";
+	private static final String UPDATE_SELECTIVE_COLUMN_SQL = "updateSelectiveColumn";
 
-	private static String UPDATE_SELECTIVE_VALUE_SQL = "updateSelectiveValue";
+	private static final String UPDATE_SELECTIVE_VALUE_SQL = "updateSelectiveValue";
 
-	private static String DEFAULT_MAPPER_NAME = "GeneratorDao";
+	private static final String DEFAULT_MAPPER_NAME = "GeneratorDao";
 
 	private static final String DEFAULT_OUTPUT_PATH = System.getProperty("user.dir") + File.separator + "src/main/java/generator/";
 
@@ -265,7 +265,7 @@ public class MapperGenerator {
 
 	private static <T> String genColumnSelective(Class<T> c, Boolean isUpdate, String sqlId) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("<sql id=\"" + sqlId + "\">").append(lineSeparator);
+		builder.append("<sql id=\"").append(sqlId).append("\">").append(lineSeparator);
 		builder.append("    ");
 		builder.append("<trim suffixOverrides=\",\">").append(lineSeparator);
 		List<Field> fields = getAllColumnField(c);

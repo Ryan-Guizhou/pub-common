@@ -28,9 +28,9 @@ public class ClassUtils {
     }
 
     public static List<Field> getAllField(Class clazz) {
-        List<Field> result = new ArrayList<Field>();
+        List<Field> result = new ArrayList<>();
         PropertyDescriptor[] ps = PropertyUtils.getPropertyDescriptors(clazz);
-        Field f = null;
+        Field f;
         for (PropertyDescriptor prop : ps) {
             f = ClassUtils.getField(clazz, prop.getName());
             if (f != null) {
@@ -46,17 +46,9 @@ public class ClassUtils {
             if (c == null) {
                 return false;
             }
-            if (c.name().equalsIgnoreCase(column)) {
-                return true;
-            } else {
-                return false;
-            }
+            return c.name().equalsIgnoreCase(column);
         }).findFirst();
-        if (optional.isPresent()) {
-            return optional.get().getName();
-        } else {
-            return "";
-        }
+        return optional.map(Field::getName).orElse("");
     }
 
     /**
@@ -68,7 +60,7 @@ public class ClassUtils {
     public static Set<Class<?>> getClasses(String pack) {
 
         // 第一个class类的集合
-        Set<Class<?>> classes = new LinkedHashSet<Class<?>>();
+        Set<Class<?>> classes = new LinkedHashSet<>();
         // 是否循环迭代
         boolean recursive = true;
         // 获取包的名字 并进行替换
@@ -120,20 +112,18 @@ public class ClassUtils {
                                     packageName = name.substring(0, idx).replace('/', '.');
                                 }
                                 // 如果可以迭代下去 并且是一个包
-                                if ((idx != -1) || recursive) {
-                                    // 如果是一个.class文件 而且不是目录
-                                    if (name.endsWith(".class") && !entry.isDirectory()) {
-                                        // 去掉后面的".class" 获取真正的类名
-                                        String className = name.substring(packageName.length() + 1, name.length() - 6);
-                                        try {
-                                            // 添加到classes
-                                            classes.add(Class.forName(packageName + '.' + className));
-                                        } catch (ClassNotFoundException e) {
-                                            // log
-                                            // .error("添加用户自定义视图类错误
-                                            // 找不到此类的.class文件");
-                                            e.printStackTrace();
-                                        }
+                                // 如果是一个.class文件 而且不是目录
+                                if (name.endsWith(".class") && !entry.isDirectory()) {
+                                    // 去掉后面的".class" 获取真正的类名
+                                    String className = name.substring(packageName.length() + 1, name.length() - 6);
+                                    try {
+                                        // 添加到classes
+                                        classes.add(Class.forName(packageName + '.' + className));
+                                    } catch (ClassNotFoundException e) {
+                                        // log
+                                        // .error("添加用户自定义视图类错误
+                                        // 找不到此类的.class文件");
+                                        e.printStackTrace();
                                     }
                                 }
                             }

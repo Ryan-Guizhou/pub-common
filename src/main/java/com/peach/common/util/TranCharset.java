@@ -29,7 +29,7 @@ public class TranCharset {
           return encoding; // 如果编码匹配，返回编码名
         }
       } catch (Exception e) {
-        log.error("" +e.getMessage(),e);
+        log.error("字符串加密失败" +e.getMessage(),e);
       }
     }
 

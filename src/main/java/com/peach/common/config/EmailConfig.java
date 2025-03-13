@@ -79,7 +79,7 @@ public class EmailConfig {
         mailSender.setUsername(form);
         mailSender.setProtocol(protocol);
         Properties javaMailProperties = new Properties();
-        log.error("邮箱发送加密方式：[{}]" ,isSSL);
+        log.error("Email sending encryption method：[{}]" ,isSSL);
         if (MailConstant.MAIL_AUTH_TYPE_SSL.equals(isSSL)) {
             //阿里:使用SSL，企业邮箱必需！ 开启安全协议
             port = StringUtil.isBlank(port) ? "465" : port;

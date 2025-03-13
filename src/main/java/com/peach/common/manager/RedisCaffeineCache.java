@@ -41,19 +41,19 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
     /**
      * 缓存名称
      */
-    private String cacheName;
+    private final String cacheName;
 
     /**
      * 一级缓存
      */
-    private Cache<Object, Object> caffeineCache;
+    private final Cache<Object, Object> caffeineCache;
 
     /**
      * 二级缓存
      */
-    private RedisTemplate redisTemplate;
+    private final RedisTemplate redisTemplate;
 
-    private RedissonClient redissonClient;
+    private final RedissonClient redissonClient;
 
     public RedisCaffeineCache(String cacheName, RedisTemplate redisTemplate,
                               Cache<Object, Object> caffeineCache, MutilCacheConfig cacheConfig, RedissonClient redissonClient) {

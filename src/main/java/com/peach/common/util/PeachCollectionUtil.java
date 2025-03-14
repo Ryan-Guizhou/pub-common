@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  */
 public class PeachCollectionUtil extends CollectionUtils {
 
-    private static ObjectMapper MAPPER = new ObjectMapper();
+    private static final ObjectMapper MAPPER = new ObjectMapper();
 
     public static boolean isNotEmpty(Collection<?> collection) {
         return !isEmpty(collection);
@@ -56,7 +56,7 @@ public class PeachCollectionUtil extends CollectionUtils {
      */
     private static void removeEmpty( Map map ) {
         Iterator<Map.Entry> itera = map.entrySet().iterator();
-        Map.Entry entry = null;
+        Map.Entry entry;
         while (itera.hasNext()) {
             entry = itera.next();
             if (Objects.isNull(entry.getValue()) || StringUtil.isEmpty(entry.getValue().toString())) {
@@ -127,7 +127,7 @@ public class PeachCollectionUtil extends CollectionUtils {
 
     public static List<Map> mapKeyToUpper( List<Object> objects,boolean isToLine){
         List<Map> res = Lists.newArrayList();
-        objects.stream().forEach(o -> {
+        objects.forEach(o -> {
             Map obj = mapKeyToUpper(map(o),isToLine);
             res.add(obj);
         });
@@ -167,7 +167,7 @@ public class PeachCollectionUtil extends CollectionUtils {
 
     public static List<Map> mapKeyToLower( List<Object> objects,boolean isToHump ){
         List<Map> res = Lists.newArrayList();
-        objects.stream().forEach(o -> {
+        objects.forEach(o -> {
             Map obj = mapKeyToLower(map(o),isToHump);
             res.add(obj);
         });
@@ -222,13 +222,7 @@ public class PeachCollectionUtil extends CollectionUtils {
      */
     public static List<String> sortCodes(List<String> codes) {
         codes.sort(( o1, o2 ) -> {
-            if(o1.compareTo(o2) > 0){
-                return 1;
-            }else if(o1.compareTo(o2) < 0){
-                return -1;
-            }else{
-                return 0;
-            }
+            return Integer.compare(o1.compareTo(o2), 0);
         });
         return codes;
     }

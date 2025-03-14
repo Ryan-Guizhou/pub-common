@@ -30,10 +30,10 @@ public class StringUtil implements Serializable {
 
     private static final long serialVersionUID = 2143367839995921470L;
 
-    private static Pattern linePattern = Pattern.compile("_(\\w)");
+    private static final Pattern linePattern = Pattern.compile("_(\\w)");
 
 
-    private static Pattern humpPattern = Pattern.compile("[A-Z]");
+    private static final Pattern humpPattern = Pattern.compile("[A-Z]");
 
     public static final String EMPTY = "";
 

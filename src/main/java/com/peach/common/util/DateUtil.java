@@ -179,7 +179,7 @@ public class DateUtil {
     public static String formatDate(Integer year, Integer month, Integer day) {
         String date;
         try {
-            StringBuffer res = new StringBuffer();
+            StringBuilder res = new StringBuilder();
             if (month > 9) {
                 res.append(year).append("-").append(month).append("-").append(day);
             } else {

@@ -34,6 +34,7 @@ public class MongoConfig {
     @Primary
     @ConditionalOnMissingBean(MongoTemplate.class)
     public MongoTemplate mongoTemplate() {
+        log.info("mongoTemplate has been initialized");
         return new MongoTemplate(mongoDatabaseFactory());
     }
 

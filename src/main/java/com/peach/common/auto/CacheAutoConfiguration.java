@@ -1,10 +1,11 @@
 
-package com.peach.common.manager;
+package com.peach.common.auto;
 
 
 import com.peach.common.config.RedisConfig;
 import com.peach.common.config.mutil.MutilCacheConfig;
 import com.peach.common.listener.CacheMessageListener;
+import com.peach.common.manager.RedisCaffeineCacheManager;
 import org.redisson.api.RedissonClient;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;

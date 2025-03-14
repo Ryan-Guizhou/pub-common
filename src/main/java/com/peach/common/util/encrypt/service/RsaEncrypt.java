@@ -1,12 +1,8 @@
 package com.peach.common.util.encrypt.service;
 
-import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
-import cn.hutool.crypto.digest.DigestUtil;
-import cn.hutool.extra.spring.SpringUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.peach.common.constant.EncryptConstant;
@@ -16,13 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RMapCache;
 import org.redisson.api.RedissonClient;
-
 import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.DESKeySpec;
-import javax.crypto.spec.IvParameterSpec;
-import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
@@ -171,7 +161,7 @@ public class RsaEncrypt extends EncryptAbstract {
      *
      * @return
      */
-    public PrivateKey getPrivateKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
+    private PrivateKey getPrivateKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
         // 获取密钥工厂
         KeyFactory keyFactory = KeyFactory.getInstance(getAlgorithm());
         // 构建密钥规范 进行 Base64 解码
@@ -186,7 +176,7 @@ public class RsaEncrypt extends EncryptAbstract {
      *
      * @return
      */
-    public PublicKey getPublicKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
+    private PublicKey getPublicKey() throws NoSuchAlgorithmException, InvalidKeySpecException {
         // 获取密钥工厂
         KeyFactory keyFactory = KeyFactory.getInstance(getAlgorithm());
         // 构建密钥规范 进行 Base64 解码

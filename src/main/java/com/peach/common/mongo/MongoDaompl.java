@@ -86,7 +86,7 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
 
     @Override
     public List<Document> find(String collectionName) {
-        List<Document> resultList = Lists.newArrayList();
+        List<Document> resultList = new ArrayList<>();
         try (MongoCursor<Document> cursor = getDBCollection(collectionName)
                 .find()
                 .iterator()) {  // 使用 try-with-resources 确保游标关闭
@@ -128,12 +128,13 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
 
     @Override
     public PageInfo<T> findPageList(String collectionName, Document query, Document sort, Document projection, PageInfo<T> pageInfo, Class<T> clz) {
+        FindIterable<Document> documentIterable;
         try {
             MongoCollection<Document> collection = getDBCollection(collectionName);
     
             int total = query == null ? (int) collection.estimatedDocumentCount() : (int) collection.countDocuments(query);
             pageInfo.setTotal(total);
-            List<T> resultList = Lists.newArrayList();
+            List<T> resultList = new ArrayList<>();
             if (total == 0) {
                 pageInfo.setList(resultList);
                 return pageInfo;
@@ -226,7 +227,7 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
 
     @Override
     public long replaceOne(String collectionName, Document query, Document replacement) {
-        long modifiedCount;
+        long modifiedCount =  0;
         try {
             UpdateResult updateResult = getDBCollection(collectionName).replaceOne(query, replacement);
             modifiedCount = updateResult.getModifiedCount();
@@ -250,7 +251,7 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
 
     @Override
     public long updateOne(String collectionName, Document query, Document document) {
-        long modifiedCount;
+        long modifiedCount = 0L;
         try {
             UpdateResult updateResult = getDBCollection(collectionName).updateOne(query, document);
             modifiedCount = updateResult.getModifiedCount();
@@ -263,7 +264,7 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
 
     @Override
     public long updateMany(String collectionName, Document query, Document document) {
-        long modifiedCount;
+        long modifiedCount = 0L;
         try {
             UpdateResult updateResult = getDBCollection(collectionName).updateMany(query, document);
             modifiedCount = updateResult.getModifiedCount();
@@ -276,7 +277,7 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
 
     @Override
     public long deleteOne(String collectionName, Document query) {
-        long deletedCount;
+        long deletedCount = 0L;
         try {
             DeleteResult deleteResult = getDBCollection(collectionName).deleteOne(query);
             deletedCount = deleteResult.getDeletedCount();
@@ -289,7 +290,7 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
 
     @Override
     public long deleteMany(String collectionName, Document query) {
-        long deletedCount;
+        long deletedCount = 0L;
         try {
             DeleteResult deleteResult = getDBCollection(collectionName).deleteMany(query);
             deletedCount = deleteResult.getDeletedCount();
@@ -327,7 +328,7 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
 
     @Override
     public long updateBatchId(String collectionName, List queryArgs, Document update) {
-        long modifiedCount;
+        long modifiedCount = 0L;
         try {
             Document query = new Document().append("_id", new BasicDBObject().append("$in", queryArgs.toArray()));
             UpdateResult updateResult = getDBCollection(collectionName).updateMany(query, update);

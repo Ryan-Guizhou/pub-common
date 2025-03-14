@@ -56,7 +56,7 @@ public class UserOperInteceptor implements MethodInterceptor {
             }
             return content;
         }catch (Exception ex){
-            log.error("spel parse failed"+ex.getMessage(),e);
+            log.error("spel parse failed"+ex.getMessage(),ex);
             return content;
         }
     }

@@ -29,6 +29,16 @@ public interface PubCommonConst {
      */
     String GBK = "GBK";
 
+    String STR_TRUE = "true";
+
+    String STR_FALSE = "false";
+
+    Boolean TRUE = true;
+
+    Boolean FALSE = false;
+
+    String USER_AGENT = "User-Agent";
+
 
 
 }

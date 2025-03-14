@@ -1,5 +1,7 @@
 package com.peach.common.auto;
 
+import com.peach.common.anno.MyBatisDao;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Indexed;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Indexed;
  */
 @Indexed
 @Configuration
+@MapperScan(lazyInitialization = "true", basePackages = "com.peach.common.dao",
+        annotationClass = MyBatisDao.class,sqlSessionFactoryRef = "mybatis-session")
 @ComponentScan("com.peach.common")
 public class PeachCommonStarter {
 

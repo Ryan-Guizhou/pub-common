@@ -9,7 +9,11 @@ package com.peach.common.enums;
 public enum ModuleEnum {
 
     SCHEDULE("SCHEDULE", "定时任务模块"),
+
     SECURITY("SECURITY","认证模块"),
+
+    COMMON("COMMON","通用模块"),
+
     FILSERVICE("FILESERVICE","文件服务模块")
     ;
 

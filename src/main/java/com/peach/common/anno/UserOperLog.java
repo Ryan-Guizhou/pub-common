@@ -1,5 +1,10 @@
 package com.peach.common.anno;
 
+import com.peach.common.constant.LogLevel;
+import com.peach.common.enums.ModuleEnum;
+import com.peach.common.enums.OptTypeEnum;
+import com.peach.common.util.StringUtil;
+
 import java.lang.annotation.*;
 
 /**
@@ -14,5 +19,27 @@ import java.lang.annotation.*;
 public @interface UserOperLog {
 
 
+    /**
+     * 模块编码
+     * @return
+     */
+    ModuleEnum moduleCode() default ModuleEnum.COMMON;
 
+    /**
+     * 操作类型
+     * @return
+     */
+    OptTypeEnum optType() default OptTypeEnum.DELETE;
+
+    /**
+     * 用户操作了什么内容
+     * @return
+     */
+    String optContent() default StringUtil.EMPTY;
+
+    /**
+     * 操作级别 INSERT:INFO UPDATE:DEBUG DELETE:WARN
+     * @return
+     */
+    String optLevel() default LogLevel.INFO;
 }

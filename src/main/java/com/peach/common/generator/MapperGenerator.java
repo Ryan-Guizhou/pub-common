@@ -385,7 +385,7 @@ public class MapperGenerator {
 		builder.append(String.format("        <include refid=\"%s\" />", "allColumn")).append(lineSeparator);
 		builder.append("    ) VALUES ").append(lineSeparator);
 		builder.append(
-						"    <foreach collection=\"list\" index=\"index\" item=\"item\">").append(lineSeparator);
+						"    <foreach collection=\"list\" index=\"index\" item=\"item\" separator=\",\">").append(lineSeparator);
 		builder.append(String.format("    	(<include refid=\"%s\"/>)", "itemAllColumnValue")).append(lineSeparator);
 		builder.append("    </foreach>").append(lineSeparator);
 		builder.append("</insert>");

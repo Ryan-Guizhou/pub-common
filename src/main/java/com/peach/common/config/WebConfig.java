@@ -1,12 +1,14 @@
 package com.peach.common.config;
 
 import com.peach.common.anno.UserOperLog;
-import com.peach.common.log.aspect.UserOperInteceptor;
 import com.peach.common.filter.CostTimeFiler;
+import com.peach.common.log.aspect.LoginInteceptor;
+import com.peach.common.log.aspect.UserOperLogInteceptor;
 import org.aopalliance.aop.Advice;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
+import org.springframework.aop.support.NameMatchMethodPointcut;
 import org.springframework.aop.support.annotation.AnnotationMatchingPointcut;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,11 +33,24 @@ public class WebConfig {
 
     // #############################################
 
+    /**
+     * 拦截器注册
+     * @return
+     */
     @Bean
     public Advisor userOperLogHandlerAdvisor() {
-        UserOperInteceptor userOperInteceptor = new UserOperInteceptor();
+        UserOperLogInteceptor userOperLogInteceptor = new UserOperLogInteceptor();
         AnnotationMatchingPointcut pointcut = new AnnotationMatchingPointcut(null, UserOperLog.class);
-        return buildAdvisor(userOperInteceptor,pointcut);
+        return buildAdvisor(userOperLogInteceptor,pointcut);
+    }
+
+    @Bean
+    public Advisor userOperLogPointcut() {
+        LoginInteceptor loginInteceptor = new LoginInteceptor();
+        NameMatchMethodPointcut pointcut = new NameMatchMethodPointcut();
+        // 指定拦截login方法
+        pointcut.addMethodName("login");  // 如果是login方法
+        return buildAdvisor(loginInteceptor, pointcut);
     }
 
     private Advisor buildAdvisor(Advice advice, Pointcut pointcut){

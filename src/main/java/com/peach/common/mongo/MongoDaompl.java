@@ -128,7 +128,6 @@ public class MongoDaompl<T> extends AbstractMongoService implements IMongoDao<T>
 
     @Override
     public PageInfo<T> findPageList(String collectionName, Document query, Document sort, Document projection, PageInfo<T> pageInfo, Class<T> clz) {
-        FindIterable<Document> documentIterable;
         try {
             MongoCollection<Document> collection = getDBCollection(collectionName);
     

@@ -1,6 +1,7 @@
 package com.peach.common.entity;
 
 import com.peach.common.generator.MapperGenerator;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -18,6 +19,7 @@ import java.util.Map;
  * @CreateTime 2025/03/14 23:12
  */
 @Data
+@ApiModel
 @Table(name = "LOGIN_LOG")
 public class LoginLogDO implements Serializable {
 

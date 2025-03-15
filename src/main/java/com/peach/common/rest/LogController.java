@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.peach.common.entity.qo.LogQO;
 import com.peach.common.log.AbstractLogService;
 import com.peach.common.response.Response;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Indexed;
@@ -21,6 +22,7 @@ import javax.annotation.Resource;
 @Indexed
 @RestController
 @RequestMapping("/log")
+@Api(tags = "LogController")
 public class LogController {
 
 

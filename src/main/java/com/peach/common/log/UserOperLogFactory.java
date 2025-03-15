@@ -17,13 +17,13 @@ public class UserOperLogFactory {
      * @param dbType 数据库类型
      * @return
      */
-    public static AbstractUserService getInstance(String dbType) {
+    public static AbstractLogService getInstance(String dbType) {
         if(DbTypeConstant.MYSQL.equals(dbType)) {
-            return SpringUtil.getBean(MysqlUserService.class);
+            return SpringUtil.getBean(MysqlLogService.class);
         }else if(DbTypeConstant.MONGODB.equals(dbType)) {
-            return SpringUtil.getBean(MongoUserService.class);
+            return SpringUtil.getBean(MongoLogService.class);
         }else {
-            return SpringUtil.getBean(MysqlUserService.class);
+            return SpringUtil.getBean(MysqlLogService.class);
         }
     }
 }

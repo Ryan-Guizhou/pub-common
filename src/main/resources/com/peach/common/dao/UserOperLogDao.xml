@@ -342,4 +342,32 @@
             <include refid="allColumnCond" />
         </where>
     </select>
+    <select id="selectByQO" resultType="com.peach.common.entity.UserOperLogDO" parameterType="com.peach.common.entity.qo.LogQO">
+        SELECT
+            <include refid="allColumnAlias"/>
+        FROM USER_OPER_LOG
+        <where>
+            <if test="moduleCode != null and moduleCode != ''">
+                AND MODULE_CODE = #{moduleCode,jdbcType=VARCHAR}
+            </if>
+            <if test="optLevel != null and optLevel != ''">
+                AND OPT_LEVEL = #{optLevel,jdbcType=VARCHAR}
+            </if>
+            <if test="creatorName != null and creatorName != ''">
+                AND CREATOR_NAME = #{creatorName,jdbcType=VARCHAR}
+            </if>
+            <if test="isSuccess != null and isSuccess != ''">
+                AND IS_SUCCESS = #{isSuccess,jdbcType=VARCHAR}
+            </if>
+            <if test="moduleCode != null and moduleCode != ''">
+                AND MODULE_CODE = #{moduleCode,jdbcType=VARCHAR}
+            </if>
+            <if test="startTime != null and startTime !=  '' and endTime != null and endTime !=  ''">
+                and (to_date( CREATE_TIME, 'yyyy-mm-dd HH24:MI:SS' )
+                between to_date( #{startTime,jdbcType=VARCHAR}, 'yyyy-mm-dd HH24:MI:SS' )
+                AND to_date( #{endTime,jdbcType=VARCHAR}, 'yyyy-mm-dd HH24:MI:SS' ) )
+            </if>
+        </where>
+        ORDER BY CREATE_TIME DESC
+    </select>
 </mapper>

@@ -77,7 +77,7 @@ public class TransferUtil {
         userOperLogDO.setBrowser(diviceInfo.getBrowser());
         userOperLogDO.setOs(diviceInfo.getOs());
         userOperLogDO.setExecutionTime(executionTime);
-        userOperLogDO.setIsSuccess(StringUtil.getStringValue(response.isSuccess()));
+        userOperLogDO.setIsSuccess(response.isSuccess() + StringUtil.EMPTY);
         String errorMsg = response.isSuccess() == PubCommonConst.TRUE ? StringUtil.EMPTY : response.getMsg();
         userOperLogDO.setErrorMsg(errorMsg);
         userOperLogDO.setResponseData(JSONUtil.toJsonStr(response.getData()));

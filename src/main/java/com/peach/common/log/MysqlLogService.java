@@ -1,10 +1,13 @@
 package com.peach.common.log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.peach.common.dao.LoginLogDao;
 import com.peach.common.dao.UserOperLogDao;
 import com.peach.common.entity.LoginLogDO;
 import com.peach.common.entity.UserOperLogDO;
+import com.peach.common.entity.qo.LogQO;
 import com.peach.common.util.PeachCollectionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -26,7 +29,7 @@ import java.util.stream.Collectors;
 @Indexed
 @Service
 @ConditionalOnProperty(prefix = "mysql", name = "enabled", havingValue = "false", matchIfMissing = true)
-public class MysqlUserService extends AbstractUserService {
+public class MysqlLogService extends AbstractLogService {
 
     @Resource
     private UserOperLogDao userOperLogDao;
@@ -51,7 +54,7 @@ public class MysqlUserService extends AbstractUserService {
     }
 
     @Override
-    protected void batchUpdateLoginLog(List<Map<String, Object>> LoginLogList) {
+    protected void batchInsertLoginLog(List<Map<String, Object>> LoginLogList) {
         if(PeachCollectionUtil.isEmpty(LoginLogList)){
             log.error("登录日志需要插入的数据为空,跳过本次执行");
             return;
@@ -63,4 +66,22 @@ public class MysqlUserService extends AbstractUserService {
         log.error("登录日志本次插入的数据条数为:[{}]",operLogDOList);
         loginLogDao.batchInsert(operLogDOList);
     }
+
+    @Override
+    public PageInfo selectOperLog(LogQO logQO) {
+        PageInfo<UserOperLogDO> pageInfo = PageHelper.startPage(logQO.getPageNum(), logQO.getPageSize()).doSelectPageInfo(() -> {
+            userOperLogDao.selectByQO(logQO);
+        });
+        return pageInfo;
+    }
+
+    @Override
+    public PageInfo selectLoginLog(LogQO logQO) {
+        PageInfo<LoginLogDO> pageInfo = PageHelper.startPage(logQO.getPageNum(), logQO.getPageSize()).doSelectPageInfo(() -> {
+            loginLogDao.selectByQO(logQO);
+        });
+        return pageInfo;
+    }
+
+
 }

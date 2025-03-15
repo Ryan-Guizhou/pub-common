@@ -4,9 +4,10 @@ import cn.hutool.json.JSONUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.peach.common.IMongoDao;
-import com.peach.common.entity.qo.LogQO;
+import com.peach.common.constant.PubCommonConst;
 import com.peach.common.entity.LoginLogDO;
 import com.peach.common.entity.UserOperLogDO;
+import com.peach.common.entity.qo.LogQO;
 import com.peach.common.util.DateUtil;
 import com.peach.common.util.PeachCollectionUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -106,9 +107,13 @@ public class MongoLogService extends AbstractLogService {
         Optional.ofNullable(logQO.getEndTime()).ifPresent(endTime -> timeCondition.put("$lte", DateUtil.parseDate(endTime)));
         Optional.of(timeCondition).ifPresent(condition -> query.put("timeCondition", condition));
 
-        //2、构建查询方式
+        //2、构建排序方式方式
         Document sort = new Document();
-        sort.append("createTime", -1);
+        Optional.ofNullable(logQO.getOrderType()).ifPresent(orderType -> {
+            Integer order = orderType.equalsIgnoreCase(PubCommonConst.ORDER_TYPE_DESC) ? 1 : -1;
+            sort.put("order", order);
+        });
+
 
         //3、构建映射关系,查询那些字段 那些字段不查询等
         Document projection = new Document();

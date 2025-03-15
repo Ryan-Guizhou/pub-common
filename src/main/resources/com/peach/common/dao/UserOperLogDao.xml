@@ -368,6 +368,6 @@
                 AND to_date( #{endTime,jdbcType=VARCHAR}, 'yyyy-mm-dd HH24:MI:SS' ) )
             </if>
         </where>
-        ORDER BY CREATE_TIME DESC
+        ORDER BY CREATE_TIME ${orderType}
     </select>
 </mapper>

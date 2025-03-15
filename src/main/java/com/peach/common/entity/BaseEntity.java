@@ -1,5 +1,6 @@
 package com.peach.common.entity;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -15,23 +16,16 @@ public class BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -1080653764114388520L;
 
-    /**
-     * 分页大小
-     */
+    @ApiModelProperty(value = "分页大小")
     private Integer pageSize;
 
-    /**
-     * 分页页码
-     */
+    @ApiModelProperty(value = "分页页码")
     private Integer pageNum;
 
-    /**
-     * 排序类型(看具体功能传参)
-     */
+    @ApiModelProperty(value = "排序类型")
     private Integer sortType;
-    /**
-     * 排序规则 desc、asc(看具体功能传参)
-     */
+
+    @ApiModelProperty(value = "排序规则 desc、asc")
     private String orderType;
 
     public int getPageNum() {

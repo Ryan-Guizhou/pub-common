@@ -79,6 +79,18 @@ public interface PubCommonConst {
      */
     String ORDER_TYPE_ASC = "asc";
 
+    /**
+     * 请求方式 GET
+     */
+    String REQUEST_GET = "GET";
 
+    /**
+     * 请求方式 POST
+     */
+    String REQUEST_POST = "POST";
 
+    /**
+     * CONTENT_TYPE
+     */
+    String CONTENT_TYPE = "application/json";
 }

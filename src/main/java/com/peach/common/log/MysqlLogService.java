@@ -49,7 +49,7 @@ public class MysqlLogService extends AbstractLogService {
             UserOperLogDO userOperLogDO = _MAPPER.convertValue(userOperLog, UserOperLogDO.class);
             return userOperLogDO;
         }).collect(Collectors.toList());
-        log.error("操作日志本次插入的数据条数为:[{}]",operLogDOList);
+        log.error("操作日志本次插入的数据条数为:[{}]",operLogDOList.size());
         userOperLogDao.batchInsert(operLogDOList);
     }
 
@@ -63,7 +63,7 @@ public class MysqlLogService extends AbstractLogService {
             LoginLogDO loginLogDO = _MAPPER.convertValue(loginLog, LoginLogDO.class);
             return loginLogDO;
         }).collect(Collectors.toList());
-        log.error("登录日志本次插入的数据条数为:[{}]",operLogDOList);
+        log.error("登录日志本次插入的数据条数为:[{}]",operLogDOList.size());
         loginLogDao.batchInsert(operLogDOList);
     }
 

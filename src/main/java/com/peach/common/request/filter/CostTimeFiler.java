@@ -1,8 +1,10 @@
-package com.peach.common.filter;
+package com.peach.common.request.filter;
 
+import com.peach.common.request.AbstractWrapperFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
-import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Indexed;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -17,10 +19,12 @@ import java.io.IOException;
  * @CreateTime 2025/2/26 17:57
  */
 @Slf4j
-public class CostTimeFiler extends OncePerRequestFilter implements Ordered {
+@Indexed
+@Component
+public class CostTimeFiler extends AbstractWrapperFilter implements Ordered {
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         long startTime = System.currentTimeMillis();
         String requestURI = request.getRequestURI();
 
@@ -35,6 +39,6 @@ public class CostTimeFiler extends OncePerRequestFilter implements Ordered {
 
     @Override
     public int getOrder() {
-        return Ordered.LOWEST_PRECEDENCE;
+        return Ordered.HIGHEST_PRECEDENCE;
     }
 }

@@ -56,7 +56,7 @@ public class MongoLogService extends AbstractLogService {
             return;
         }
         List<Document> operLogDOList = userOperLogList.stream().map(Document::new).collect(Collectors.toList());
-        log.error("本次插入的操作日志数据条数为:[{}]",operLogDOList);
+        log.error("本次插入的操作日志数据条数为:[{}]",operLogDOList.size());
         mongoDao.insertMany(OPER_LOG_COLLECTION_NAME,operLogDOList);
     }
 
@@ -67,7 +67,7 @@ public class MongoLogService extends AbstractLogService {
             return;
         }
         List<Document> loginLogList = LoginLogList.stream().map(Document::new).collect(Collectors.toList());
-        log.error("本次插入的登录日志数据条数为:[{}]",loginLogList);
+        log.error("本次插入的登录日志数据条数为:[{}]",loginLogList.size());
         mongoDao.insertMany(LOGIN_LOG_COLLECTION_NAME,loginLogList);
     }
 

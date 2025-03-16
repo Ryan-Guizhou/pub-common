@@ -1,9 +1,9 @@
 package com.peach.common.config;
 
 import com.peach.common.anno.UserOperLog;
-import com.peach.common.filter.CostTimeFiler;
 import com.peach.common.log.aspect.LoginInteceptor;
 import com.peach.common.log.aspect.UserOperLogInteceptor;
+import com.peach.common.request.interceptor.SqlInjectionInterceptor;
 import org.aopalliance.aop.Advice;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.Pointcut;
@@ -12,6 +12,11 @@ import org.springframework.aop.support.NameMatchMethodPointcut;
 import org.springframework.aop.support.annotation.AnnotationMatchingPointcut;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Indexed;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import javax.annotation.Resource;
 
 /**
  * @Author Mr Shu
@@ -19,19 +24,19 @@ import org.springframework.context.annotation.Configuration;
  * @Description //TODO
  * @CreateTime 2025/2/26 18:03
  */
+@Indexed
 @Configuration
-public class WebConfig {
+public class WebConfig implements WebMvcConfigurer {
 
-    /**
-     * 过滤器注册
-     * @return
-     */
-    @Bean
-    public CostTimeFiler costTimeFiler() {
-        return new CostTimeFiler();
+    @Resource
+    private SqlInjectionInterceptor sqlInjectionInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(sqlInjectionInterceptor)
+                .addPathPatterns("/**")  // 你可以指定需要拦截的路径
+                .excludePathPatterns("/swagger-resources/**", "/v2/api-docs");  // 可以排除不需要拦截的路径
     }
-
-    // #############################################
 
     /**
      * 拦截器注册

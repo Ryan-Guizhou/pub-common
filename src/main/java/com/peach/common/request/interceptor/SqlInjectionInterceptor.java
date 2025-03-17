@@ -36,7 +36,7 @@ public class SqlInjectionInterceptor extends AbstractWrapperInterceptor implemen
      */
     private static Pattern DEFAULT_SQL_PATTERN = Pattern.compile("(\\\\b(SELECT|UPDATE|DELETE|INSERT|WHERE|DROP|ALTER|TRUNCATE)\\\\b)");
 
-    @Value("peach.common.sqlPattern:")
+    @Value("${peach.common.sqlPattern:DELETE}")
     private String sqlPattern;
 
     @PostConstruct

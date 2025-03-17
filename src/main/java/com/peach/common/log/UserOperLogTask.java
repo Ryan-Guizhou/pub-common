@@ -1,14 +1,17 @@
 package com.peach.common.log;
 
+import com.peach.common.util.PeachCollectionUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Indexed;
 import org.springframework.util.StopWatch;
 
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * @Author Mr Shu
@@ -26,14 +29,21 @@ public class UserOperLogTask {
 
     private final LogQueue logQueue;
 
+    private final ScheduledExecutorService executorService;
+
     public UserOperLogTask() {
         this.logQueue = LogQueue.getInstance();
+        this.executorService = Executors.newScheduledThreadPool(1);
+        executorService.scheduleAtFixedRate(() -> {
+            handleUserOperLog();
+            handlerLoginLog();
+        }, 0, 1, java.util.concurrent.TimeUnit.MINUTES);
     }
 
-    @Scheduled(fixedRate = 10000)
+
     public void handleUserOperLog() {
         List<Map<String, Object>> allUserOperLog = logQueue.getAllUserOperLog();
-        if (allUserOperLog == null) {
+        if (PeachCollectionUtil.isEmpty(allUserOperLog)) {
             log.error("本次定时任务执行需要插入的数据为空");
             return;
         }
@@ -45,10 +55,9 @@ public class UserOperLogTask {
         log.error(stopWatch.prettyPrint());
     }
 
-    @Scheduled(fixedRate = 10000)
     public void handlerLoginLog() {
         List<Map<String, Object>> allLoginLog = logQueue.getAllLoginLog();
-        if (allLoginLog == null) {
+        if (PeachCollectionUtil.isEmpty(allLoginLog)) {
             log.error("本次定时任务执行需要插入的数据为空");
             return;
         }
@@ -58,5 +67,16 @@ public class UserOperLogTask {
         stopWatch.stop();
         log.info("UserOperLogTask has been executed in {}", stopWatch.getTotalTimeMillis());
         log.error(stopWatch.prettyPrint());
+    }
+
+    /**
+     * 释放资源，防止线程池泄漏
+     */
+    @PreDestroy
+    public void shutdownExecutor() {
+        if (executorService != null && !executorService.isShutdown()) {
+            log.info("正在关闭 UserOperLogTask 线程池...");
+            executorService.shutdown();
+        }
     }
 }

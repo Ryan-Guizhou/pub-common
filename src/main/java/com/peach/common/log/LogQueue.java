@@ -1,6 +1,12 @@
 package com.peach.common.log;
 
-import java.util.*;
+import com.google.common.collect.Lists;
+import com.peach.common.util.PeachCollectionUtil;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -9,13 +15,14 @@ import java.util.concurrent.LinkedBlockingQueue;
  * @Description //TODO
  * @CreateTime 2025/3/15 0:27
  */
+@Slf4j
 public class LogQueue {
 
     private static final LogQueue INSTANCE = new LogQueue();
 
-    private final Queue<Map<String,Object>> userOperLogQueue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<Map<String,Object>> userOperLogQueue = new LinkedBlockingQueue<>();
 
-    private final Queue<Map<String,Object>> loginLogQueue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<Map<String,Object>> loginLogQueue = new LinkedBlockingQueue<>();
 
     private LogQueue() {} // 私有构造函数
 
@@ -37,14 +44,12 @@ public class LogQueue {
      * @return
      */
     public List<Map<String,Object>> getAllUserOperLog() {
-        List<Map<String, Object>> allLogs = new ArrayList<>();
-
-        // 循环弹出队列中的所有元素
-        Map<String, Object> log;
-        while ((log = userOperLogQueue.poll()) != null) {
-            allLogs.add(log);
+        List<Map<String,Object>> resultList = Lists.newArrayList();
+        if (PeachCollectionUtil.isEmpty(userOperLogQueue)){
+            return resultList;
         }
-        return allLogs;
+        userOperLogQueue.drainTo(resultList);
+        return resultList;
     }
 
     /**
@@ -60,14 +65,12 @@ public class LogQueue {
      * @return
      */
     public List<Map<String,Object>> getAllLoginLog() {
-        List<Map<String, Object>> allLogs = new ArrayList<>();
-
-        // 循环弹出队列中的所有元素
-        Map<String, Object> log;
-        while ((log = loginLogQueue.poll()) != null) {
-            allLogs.add(log);
+        List<Map<String,Object> > resultList = Lists.newArrayList();
+        if (PeachCollectionUtil.isEmpty(loginLogQueue)){
+            return Lists.newArrayList();
         }
-        return allLogs;
+        loginLogQueue.drainTo(resultList);
+        return resultList;
     }
 
 }

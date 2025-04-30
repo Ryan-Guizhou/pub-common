@@ -14,11 +14,11 @@ import java.io.*;
  * @author pine
  */
 @Slf4j
-public class RequestWrapper extends HttpServletRequestWrapper {
+public class RepeatedlyRequesWrapper extends HttpServletRequestWrapper {
 
     private final String body;
 
-    public RequestWrapper(HttpServletRequest request) {
+    public RepeatedlyRequesWrapper(HttpServletRequest request) {
         super(request);
         StringBuilder stringBuilder = new StringBuilder();
         try (InputStream inputStream = request.getInputStream(); BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {

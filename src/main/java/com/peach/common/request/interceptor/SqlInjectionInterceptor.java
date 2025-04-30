@@ -4,7 +4,7 @@ import cn.hutool.core.util.ArrayUtil;
 import com.peach.common.constant.PubCommonConst;
 import com.peach.common.exception.IllegalParamExceprion;
 import com.peach.common.request.AbstractWrapperInterceptor;
-import com.peach.common.request.wrapper.RequestWrapper;
+import com.peach.common.request.wrapper.RepeatedlyRequesWrapper;
 import com.peach.common.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,7 +51,7 @@ public class SqlInjectionInterceptor extends AbstractWrapperInterceptor implemen
         boolean isPostRequest = StringUtil.isNotBlank(request.getMethod()) && PubCommonConst.REQUEST_POST.equalsIgnoreCase(request.getMethod());
         boolean isRequestBody = StringUtil.isNotBlank(contentType) && contentType.contains(PubCommonConst.CONTENT_TYPE);
 
-        RequestWrapper wrapperRequest = new RequestWrapper(request);
+        RepeatedlyRequesWrapper wrapperRequest = new RepeatedlyRequesWrapper(request);
         Optional<String> checkMsg;
         if (isPostRequest && isRequestBody) {
             checkMsg  = checkPost(wrapperRequest);
@@ -81,7 +81,7 @@ public class SqlInjectionInterceptor extends AbstractWrapperInterceptor implemen
      * @param request
      * @return
      */
-    private Optional<String> checkPost(RequestWrapper request) {
+    private Optional<String> checkPost(RepeatedlyRequesWrapper request) {
         try{
             String method = request.getMethod();
             String jsonStr = request.getBody();

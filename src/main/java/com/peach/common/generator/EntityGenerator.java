@@ -79,6 +79,9 @@ public class EntityGenerator {
                 fields.append("    private ").append(javaType).append(" ").append(fieldName).append(";").append(lineSeparator).append(lineSeparator);
             }
 
+            fields.append("    public static void main(String[] args) {").append(lineSeparator);
+            fields.append(String.format("        System.out.println(MapperGenerator.genMapper(%s));",className +".class")).append(lineSeparator);
+            fields.append("    }").append(lineSeparator);
             fields.append("}").append(lineSeparator);
             writeToFile(className, fields.toString());
             System.out.println("实体类 " + className + " 生成成功！");

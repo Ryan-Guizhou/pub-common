@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * @Author Mr Shu
  * @Version 1.0.0
- * @Description //TODO
+ * @Description 耗时拦截器
  * @CreateTime 2025/2/26 17:57
  */
 @Slf4j
@@ -33,7 +33,7 @@ public class CostTimeFiler extends AbstractWrapperFilter implements Ordered {
         } finally {
             long endTime = System.currentTimeMillis();
             long duration = endTime - startTime;
-            log.info("REQUEST URI: {}, COST TIME: {} ms", requestURI, duration);
+            log.info("REQUEST URI: [{}], COST TIME: [{}] ms", requestURI, duration);
         }
     }
 

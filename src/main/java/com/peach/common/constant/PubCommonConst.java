@@ -93,4 +93,14 @@ public interface PubCommonConst {
      * CONTENT_TYPE
      */
     String CONTENT_TYPE = "application/json";
+
+    /**
+     * 限流策略,直接拒绝
+      */
+    String REFUSE = "REFUSE";
+
+    /**
+     * 平滑限流
+     */
+    String SMOOTH = "SMOOTH";
 }

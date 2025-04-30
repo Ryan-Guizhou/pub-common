@@ -17,11 +17,11 @@ import java.util.Map;
 /**
  * @Author Mr Shu
  * @Version 1.0.0
- * @Description //TODO
+ * @Description 登录日志拦截器
  * @CreateTime 2025/3/14 18:07
  */
 @Slf4j
-public class LoginInteceptor implements MethodInterceptor {
+public class LoginLogInteceptor implements MethodInterceptor {
 
     private final IRedisDao redisDao = InstanceLazyLoader.getInstance(IRedisDao.class);
 

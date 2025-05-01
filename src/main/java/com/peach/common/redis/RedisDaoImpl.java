@@ -546,6 +546,18 @@ public class RedisDaoImpl extends AbstractRedisService implements IRedisDao {
         return decrement == null ? 0L : decrement;
     }
 
+    @Override
+    public int ttlKey(String key) {
+        Long expireSeconds = redisTemplate.getExpire(key, TimeUnit.SECONDS);
+        if (expireSeconds == null) {
+            return -2; // key 不存在
+        }
+        if (expireSeconds == -1) {
+            return -1; // 永不过期
+        }
+        return (int) Math.ceil(expireSeconds / 60.0); // 转换为分钟并向上取整
+    }
+
 
     /**
      * 获取扫描结果

@@ -450,4 +450,11 @@ public interface IRedisDao {
      * @author: pc
      */
     long decreaseNum(String key, long decIndex);
+
+    /**
+     * 查看某个key的过期时间
+     * @param key
+     * @return
+     */
+    int ttlKey(String key);
 }

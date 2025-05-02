@@ -38,17 +38,17 @@ public abstract class AbstractRedisService<K, V> {
     /**
      * 重试次数
      */
-    public static final Integer RETRY_TIMES = 3;
+    protected static final Integer RETRY_TIMES = 3;
 
     /**
      * 批量删除key的size
      */
-    public static final Integer BATCH_DELETE_SIZE = 10;
+    protected static final Integer BATCH_DELETE_SIZE = 10;
 
     /**
      * 是否启用redis命令 默认启用
      */
-    public static final Boolean IS_USED_REDIS_COMMAND = Boolean.TRUE;
+    protected static final Boolean IS_USED_REDIS_COMMAND = Boolean.TRUE;
 
     /**
      * 获取redisTemplate序列化

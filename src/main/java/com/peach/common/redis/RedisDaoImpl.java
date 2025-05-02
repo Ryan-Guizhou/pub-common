@@ -45,6 +45,7 @@ public class RedisDaoImpl extends AbstractRedisService implements IRedisDao {
                 if (Boolean.TRUE.equals(redisTemplate.delete(key))){
                     break;
                 }
+                reTryCount ++ ; ;
             }catch (Exception e){
                 log.error("Filed to delete key:[{}] attempt : ｛｝/{}", key,reTryCount,RETRY_TIMES,e);
             }

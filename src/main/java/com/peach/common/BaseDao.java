@@ -24,7 +24,7 @@ public interface BaseDao<T>{
 
     public void delByIds(List<String> ids);
 
-    public void count(T t);
+    public int count(T t);
 
     public T selectById(String id);
 

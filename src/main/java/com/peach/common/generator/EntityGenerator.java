@@ -127,6 +127,7 @@ public class EntityGenerator {
             case "INTEGER":
             case "SMALLINT":
             case "TINYINT":
+            case "BIT":
                 return "Integer";
             case "DECIMAL":
             case "NUMERIC":

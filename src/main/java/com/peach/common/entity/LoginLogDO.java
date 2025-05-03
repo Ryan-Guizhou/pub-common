@@ -1,7 +1,6 @@
 package com.peach.common.entity;
 
 import com.peach.common.generator.MapperGenerator;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -16,10 +15,9 @@ import java.util.Map;
  * @Author Mr Shu
  * @Version 1.0.0
  * @Description //TODO
- * @CreateTime 2025/03/14 23:12
+ * @CreateTime 2025/05/03 15:52
  */
 @Data
-@ApiModel
 @Table(name = "LOGIN_LOG")
 public class LoginLogDO implements Serializable {
 
@@ -34,14 +32,13 @@ public class LoginLogDO implements Serializable {
     @ApiModelProperty(value = "创建人编码")
     private String creatorCode;
 
-    @Column(name = "CREATOR_NAME")
+    @Column(name = "CREATOR")
     @ApiModelProperty(value = "创建人名称")
-    private String creatorName;
+    private String creator;
 
     @Column(name = "CREATE_TIME")
     @ApiModelProperty(value = "创建时间")
     private String createTime;
-
 
     @Column(name = "PRIVATE_IP")
     @ApiModelProperty(value = "私网IP")
@@ -68,7 +65,7 @@ public class LoginLogDO implements Serializable {
     private Long executionTime;
 
     @Column(name = "IS_SUCCESS")
-    @ApiModelProperty(value = "是否成功 ('true': 成功, 'false': 失败)")
+    @ApiModelProperty(value = "是否成功 (true: 成功, false: 失败)")
     private String isSuccess;
 
     @Column(name = "ERROR_MSG")
@@ -78,16 +75,6 @@ public class LoginLogDO implements Serializable {
     @Column(name = "RESPONSE_DATA")
     @ApiModelProperty(value = "响应数据")
     private String responseData;
-
-    @Column(name = "USER_ACCOUNT")
-    @ApiModelProperty(value = "用户账号")
-    private String userAccount;
-
-
-
-    public static void main(String[] args) {
-        System.out.print( MapperGenerator.genMapper(LoginLogDO.class));
-    }
 
     /**
      * 转换为Map
@@ -105,4 +92,7 @@ public class LoginLogDO implements Serializable {
         }
     }
 
+    public static void main(String[] args) {
+        System.out.println(MapperGenerator.genMapper(LoginLogDO.class));
+    }
 }

@@ -2,31 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.peach.common.dao.LoginLogDao">
     <sql id="allColumn">
-        ID,                                               CREATOR_CODE,                                     CREATOR_NAME,                                     CREATE_TIME,
+        ID,                                               CREATOR_CODE,                                     CREATOR,                                     CREATE_TIME,
         PRIVATE_IP,                                       PUBLIC_IP,                                        DEVICE,                                           BROWSER,
         OS,                                               EXECUTION_TIME,                                   IS_SUCCESS,                                       ERROR_MSG,
-        RESPONSE_DATA,                                    USER_ACCOUNT
+        RESPONSE_DATA
     </sql>
 
     <sql id="allColumnAlias">
-        ID as id,                                         CREATOR_CODE as creatorCode,                      CREATOR_NAME as creatorName,                      CREATE_TIME as createTime,
+        ID as id,                                         CREATOR_CODE as creatorCode,                      CREATOR as creator,                      CREATE_TIME as createTime,
         PRIVATE_IP as privateIp,                          PUBLIC_IP as publicIp,                            DEVICE as device,                                 BROWSER as browser,
         OS as os,                                         EXECUTION_TIME as executionTime,                  IS_SUCCESS as isSuccess,                          ERROR_MSG as errorMsg,
-        RESPONSE_DATA as responseData,                    USER_ACCOUNT as userAccount
+        RESPONSE_DATA as responseData
     </sql>
 
     <sql id="allColumnValue">
-        #{id,jdbcType=VARCHAR},                 #{creatorCode,jdbcType=VARCHAR},        #{creatorName,jdbcType=VARCHAR},        #{createTime,jdbcType=VARCHAR},
+        #{id,jdbcType=VARCHAR},                 #{creatorCode,jdbcType=VARCHAR},        #{creator,jdbcType=VARCHAR},        #{createTime,jdbcType=VARCHAR},
         #{privateIp,jdbcType=VARCHAR},          #{publicIp,jdbcType=VARCHAR},           #{device,jdbcType=VARCHAR},             #{browser,jdbcType=VARCHAR},
         #{os,jdbcType=VARCHAR},                 #{executionTime,jdbcType=BIGINT},       #{isSuccess,jdbcType=VARCHAR},          #{errorMsg,jdbcType=VARCHAR},
-        #{responseData,jdbcType=VARCHAR},       #{userAccount,jdbcType=VARCHAR}
+        #{responseData,jdbcType=VARCHAR}
     </sql>
 
     <sql id="itemAllColumnValue">
-        #{item.id,jdbcType=VARCHAR},            #{item.creatorCode,jdbcType=VARCHAR},   #{item.creatorName,jdbcType=VARCHAR},   #{item.createTime,jdbcType=VARCHAR},
+        #{item.id,jdbcType=VARCHAR},            #{item.creatorCode,jdbcType=VARCHAR},   #{item.creator,jdbcType=VARCHAR},   #{item.createTime,jdbcType=VARCHAR},
         #{item.privateIp,jdbcType=VARCHAR},     #{item.publicIp,jdbcType=VARCHAR},      #{item.device,jdbcType=VARCHAR},        #{item.browser,jdbcType=VARCHAR},
         #{item.os,jdbcType=VARCHAR},            #{item.executionTime,jdbcType=BIGINT},  #{item.isSuccess,jdbcType=VARCHAR},     #{item.errorMsg,jdbcType=VARCHAR},
-        #{item.responseData,jdbcType=VARCHAR},  #{item.userAccount,jdbcType=VARCHAR}
+        #{item.responseData,jdbcType=VARCHAR}
     </sql>
 
     <sql id="allColumnSet">
@@ -34,8 +34,8 @@
             <if test="creatorCode != null and creatorCode != ''">
                 CREATOR_CODE = #{creatorCode,jdbcType=VARCHAR},
             </if>
-            <if test="creatorName != null and creatorName != ''">
-                CREATOR_NAME = #{creatorName,jdbcType=VARCHAR},
+            <if test="creator != null and creator != ''">
+                CREATOR = #{creator,jdbcType=VARCHAR},
             </if>
             <if test="createTime != null and createTime != ''">
                 CREATE_TIME = #{createTime,jdbcType=VARCHAR},
@@ -67,9 +67,6 @@
             <if test="responseData != null and responseData != ''">
                 RESPONSE_DATA = #{responseData,jdbcType=VARCHAR},
             </if>
-            <if test="userAccount != null and userAccount != ''">
-                USER_ACCOUNT = #{userAccount,jdbcType=VARCHAR},
-            </if>
         </trim>
     </sql>
 
@@ -78,8 +75,8 @@
             <if test="creatorCode != null and creatorCode != ''">
                 CREATOR_CODE,
             </if>
-            <if test="creatorName != null and creatorName != ''">
-                CREATOR_NAME,
+            <if test="creator != null and creator != ''">
+                CREATOR,
             </if>
             <if test="createTime != null and createTime != ''">
                 CREATE_TIME,
@@ -111,9 +108,6 @@
             <if test="responseData != null and responseData != ''">
                 RESPONSE_DATA,
             </if>
-            <if test="userAccount != null and userAccount != ''">
-                USER_ACCOUNT,
-            </if>
         </trim>
     </sql>
 
@@ -122,8 +116,8 @@
             <if test="creatorCode != null and creatorCode != ''">
                 #{creatorCode,jdbcType=VARCHAR},
             </if>
-            <if test="creatorName != null and creatorName != ''">
-                #{creatorName,jdbcType=VARCHAR},
+            <if test="creator != null and creator != ''">
+                #{creator,jdbcType=VARCHAR},
             </if>
             <if test="createTime != null and createTime != ''">
                 #{createTime,jdbcType=VARCHAR},
@@ -155,9 +149,6 @@
             <if test="responseData != null and responseData != ''">
                 #{responseData,jdbcType=VARCHAR},
             </if>
-            <if test="userAccount != null and userAccount != ''">
-                #{userAccount,jdbcType=VARCHAR},
-            </if>
         </trim>
     </sql>
 
@@ -168,8 +159,8 @@
         <if test="creatorCode != null and creatorCode != ''">
             AND CREATOR_CODE = #{creatorCode,jdbcType=VARCHAR}
         </if>
-        <if test="creatorName != null and creatorName != ''">
-            AND CREATOR_NAME = #{creatorName,jdbcType=VARCHAR}
+        <if test="creator != null and creator != ''">
+            AND CREATOR = #{creator,jdbcType=VARCHAR}
         </if>
         <if test="createTime != null and createTime != ''">
             AND CREATE_TIME = #{createTime,jdbcType=VARCHAR}
@@ -200,9 +191,6 @@
         </if>
         <if test="responseData != null and responseData != ''">
             AND RESPONSE_DATA = #{responseData,jdbcType=VARCHAR}
-        </if>
-        <if test="userAccount != null and userAccount != ''">
-            AND USER_ACCOUNT = #{userAccount,jdbcType=VARCHAR}
         </if>
     </sql>
 
@@ -297,8 +285,8 @@
         FROM LOGIN_LOG
         <where>
 
-            <if test="creatorName != null and creatorName != ''">
-                AND CREATOR_NAME like concat('%',concat(#{creatorName},'%'))
+            <if test="creator != null and creator != ''">
+                AND CREATOR like concat('%',concat(#{creator},'%'))
             </if>
             <if test="isSuccess != null and isSuccess != ''">
                 AND IS_SUCCESS = #{isSuccess,jdbcType=VARCHAR}

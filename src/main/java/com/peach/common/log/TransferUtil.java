@@ -106,11 +106,10 @@ public class TransferUtil {
         loginLogDO.setBrowser(diviceInfo.getBrowser());
         loginLogDO.setOs(diviceInfo.getOs());
         loginLogDO.setExecutionTime(executionTime);
-        loginLogDO.setIsSuccess(StringUtil.getStringValue(response.isSuccess()));
+        loginLogDO.setIsSuccess(response.isSuccess() == PubCommonConst.TRUE ? response.getMsg() :StringUtil.EMPTY);
         String errorMsg = response.isSuccess() == PubCommonConst.TRUE ? StringUtil.EMPTY : response.getMsg();
         loginLogDO.setErrorMsg(errorMsg);
         loginLogDO.setResponseData(JSONUtil.toJsonStr(response.getData()));
-        loginLogDO.setUserAccount(StringUtil.getStringValue(arguments[0]));
         return loginLogDO.toMap();
     }
 

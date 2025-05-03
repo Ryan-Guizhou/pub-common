@@ -6,6 +6,7 @@ import com.peach.common.anno.UserOperLog;
 import com.peach.common.limit.RateLimitInterceptor;
 import com.peach.common.log.aspect.LoginLogInteceptor;
 import com.peach.common.log.aspect.UserOperLogInteceptor;
+import com.peach.common.request.interceptor.NoRepeatSubmitInterceptor;
 import org.aopalliance.aop.Advice;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.Pointcut;
@@ -47,11 +48,26 @@ public class InterceptorConfig {
     }
 
 
+    /**
+     * 限流拦截器
+     * @return
+     */
     @Bean
     public Advisor rateLimitHandlerAdvisor() {
         RateLimitInterceptor rateLimitInterceptor = new RateLimitInterceptor();
         AnnotationMatchingPointcut pointcut = new AnnotationMatchingPointcut(null, RateLimit.class);
         return buildAdvisor(rateLimitInterceptor, pointcut);
+    }
+
+    /**
+     * 重复请求拦截器
+     * @return
+     */
+    @Bean
+    public Advisor noRepeatSubmitHandlerAdvisor() {
+        NoRepeatSubmitInterceptor noRepeatSubmitInterceptor = new NoRepeatSubmitInterceptor();
+        AnnotationMatchingPointcut pointcut = new AnnotationMatchingPointcut(null, RateLimit.class);
+        return buildAdvisor(noRepeatSubmitInterceptor, pointcut);
     }
     /**
      * 构建拦截器

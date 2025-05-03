@@ -30,7 +30,7 @@ public class RsaPasswordUtil {
         try {
             decryptPassword = instance.decrypt(password);
         } catch (Exception e) {
-            log.error("");
+            log.error("解密失败");
             throw new RuntimeException(e);
         }
         return decryptPassword;

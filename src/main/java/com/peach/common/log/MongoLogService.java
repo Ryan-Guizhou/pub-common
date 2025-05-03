@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.peach.common.IMongoDao;
 import com.peach.common.constant.PubCommonConst;
+import com.peach.common.constant.TableNameContant;
 import com.peach.common.entity.LoginLogDO;
 import com.peach.common.entity.UserOperLogDO;
 import com.peach.common.entity.qo.LogQO;
@@ -39,15 +40,6 @@ public class MongoLogService extends AbstractLogService {
 
     private final ObjectMapper _MAPPER = new ObjectMapper();
 
-    /**
-     * 操作日志 mongo存储日志表名
-     */
-    private static final String OPER_LOG_COLLECTION_NAME = "user_oper_log";
-
-    /**
-     * 登录日志
-     */
-    private static final String LOGIN_LOG_COLLECTION_NAME = "login_log";
 
     @Override
     protected void batchInsertOperLog(List<Map<String,Object>> userOperLogList) {
@@ -57,7 +49,7 @@ public class MongoLogService extends AbstractLogService {
         }
         List<Document> operLogDOList = userOperLogList.stream().map(Document::new).collect(Collectors.toList());
         log.error("本次插入的操作日志数据条数为:[{}]",operLogDOList.size());
-        mongoDao.insertMany(OPER_LOG_COLLECTION_NAME,operLogDOList);
+        mongoDao.insertMany(TableNameContant.OPER_LOG_COLLECTION_NAME,operLogDOList);
     }
 
     @Override
@@ -68,20 +60,20 @@ public class MongoLogService extends AbstractLogService {
         }
         List<Document> loginLogList = LoginLogList.stream().map(Document::new).collect(Collectors.toList());
         log.error("本次插入的登录日志数据条数为:[{}]",loginLogList.size());
-        mongoDao.insertMany(LOGIN_LOG_COLLECTION_NAME,loginLogList);
+        mongoDao.insertMany(TableNameContant.LOGIN_LOG_COLLECTION_NAME,loginLogList);
     }
 
     @Override
     public PageInfo selectOperLog(LogQO logQO) {
         log.info("操作日志分页查询参数为:[{}]", JSONUtil.toJsonStr(logQO));
-        PageInfo pageList = selectLogList(logQO,OPER_LOG_COLLECTION_NAME, UserOperLogDO.class);
+        PageInfo pageList = selectLogList(logQO,TableNameContant.OPER_LOG_COLLECTION_NAME, UserOperLogDO.class);
         return pageList;
     }
 
     @Override
     public PageInfo selectLoginLog(LogQO logQO) {
         log.info("登录日志分页查询参数为:[{}]", JSONUtil.toJsonStr(logQO));
-        PageInfo pageList = selectLogList(logQO,LOGIN_LOG_COLLECTION_NAME, LoginLogDO.class);
+        PageInfo pageList = selectLogList(logQO,TableNameContant.LOGIN_LOG_COLLECTION_NAME, LoginLogDO.class);
         return pageList;
     }
 

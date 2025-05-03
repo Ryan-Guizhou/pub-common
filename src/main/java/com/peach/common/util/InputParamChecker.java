@@ -6,58 +6,73 @@ import lombok.extern.slf4j.Slf4j;
 import javax.xml.bind.ValidationException;
 import java.lang.reflect.Field;
 
-/**
- * @Author Mr Shu
- * @Version 1.0.0
- * @Description //TODO
- * @CreateTime 2025/5/1 16:26
- */
 @Slf4j
 public class InputParamChecker {
 
-    private static final InputParamChecker INSTANCE;
+    private final Object target;
 
-    static {
-        INSTANCE = new InputParamChecker();
-    }
-
-
-    private InputParamChecker() {}
-
-    public static InputParamChecker checkRequiredParams(Object target) throws ValidationException {
+    private InputParamChecker(Object target) {
         if (target == null) {
             throw new IllegalArgumentException("参数对象不能为空");
         }
+        this.target = target;
+    }
 
+    public static InputParamChecker of(Object target) {
+        return new InputParamChecker(target);
+    }
+
+    /**
+     * 校验使用了 @NotBlank 注解的字段
+     */
+    public InputParamChecker checkAnnotatedFields() throws ValidationException {
         Field[] fields = target.getClass().getDeclaredFields();
         for (Field field : fields) {
-            if (!field.isAnnotationPresent(NotBlank.class)) {
-                continue;
-            }
+            if (!field.isAnnotationPresent(NotBlank.class)) continue;
             field.setAccessible(true);
             try {
                 Object value = field.get(target);
-                if (!isBlank(value)) {
-                    continue;
-                }
-                String fieldName = field.getName();
-                NotBlank annotation = field.getAnnotation(NotBlank.class);
-                String msg = annotation.message();
+                if (!isBlank(value)) continue;
+                String msg = field.getAnnotation(NotBlank.class).message();
                 throw new IllegalArgumentException(
-                        String.format("字段 [%s] 校验失败: %s", fieldName, msg)
+                        String.format("字段 [%s] 校验失败: %s", field.getName(), msg)
                 );
             } catch (IllegalAccessException e) {
                 throw new ValidationException("字段访问失败: " + field.getName());
             }
         }
-        return INSTANCE;
+        return this;
     }
 
     /**
-     * 判断这个值是否为空
-     * @param value
-     * @return
+     * 通过字段名检查是否为空
      */
+    public InputParamChecker checkField(String fieldName) throws ValidationException {
+        try {
+            Field field = target.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            Object value = field.get(target);
+            if (isBlank(value)) {
+                throw new IllegalArgumentException(String.format("字段 [%s] 不能为空", fieldName));
+            }
+        } catch (NoSuchFieldException e) {
+            throw new ValidationException("字段不存在: " + fieldName);
+        } catch (IllegalAccessException e) {
+            throw new ValidationException("字段访问失败: " + fieldName);
+        }
+        return this;
+    }
+
+    /**
+     * 批量检查字段是否为空
+     */
+    public InputParamChecker checkFields(String... fieldNames) throws ValidationException {
+        for (String fieldName : fieldNames) {
+            checkField(fieldName);
+        }
+        return this;
+    }
+
     private static boolean isBlank(Object value) {
         if (value == null) {
             return true;

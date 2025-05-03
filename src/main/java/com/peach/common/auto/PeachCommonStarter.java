@@ -54,7 +54,7 @@ public class PeachCommonStarter {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.peach.common"))
                 .build();
-        log.error("knife4j common has been configured");
+        log.info("knife4j common has been configured");
         return docket;
     }
 

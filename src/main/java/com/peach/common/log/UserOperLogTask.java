@@ -48,7 +48,7 @@ public class UserOperLogTask {
     public void handleUserOperLog() {
         List<Map<String, Object>> allUserOperLog = logQueue.getAllUserOperLog();
         if (PeachCollectionUtil.isEmpty(allUserOperLog)) {
-            log.error("本次定时任务执行需要插入的数据为空");
+            log.warn("本次定时任务执行需要插入的数据为空");
             return;
         }
         StopWatch stopWatch = new StopWatch();
@@ -65,7 +65,7 @@ public class UserOperLogTask {
     public void handlerLoginLog() {
         List<Map<String, Object>> allLoginLog = logQueue.getAllLoginLog();
         if (PeachCollectionUtil.isEmpty(allLoginLog)) {
-            log.error("本次定时任务执行需要插入的数据为空");
+            log.warn("本次定时任务执行需要插入的数据为空");
             return;
         }
         StopWatch stopWatch = new StopWatch();

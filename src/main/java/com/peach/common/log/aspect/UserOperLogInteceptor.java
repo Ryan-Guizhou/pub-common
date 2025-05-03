@@ -1,11 +1,9 @@
 package com.peach.common.log.aspect;
 
-import com.peach.common.IRedisDao;
 import com.peach.common.anno.UserOperLog;
-import com.peach.common.log.TransferUtil;
 import com.peach.common.log.LogQueue;
+import com.peach.common.log.TransferUtil;
 import com.peach.common.response.Response;
-import com.peach.common.util.InstanceLazyLoader;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -23,8 +21,6 @@ import java.util.Map;
  */
 @Slf4j
 public class UserOperLogInteceptor implements MethodInterceptor {
-
-    private final IRedisDao redisDao = InstanceLazyLoader.getInstance(IRedisDao.class);
 
     @Nullable
     @Override

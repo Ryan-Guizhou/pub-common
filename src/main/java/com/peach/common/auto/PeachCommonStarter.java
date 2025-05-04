@@ -3,7 +3,6 @@ package com.peach.common.auto;
 import com.peach.common.anno.MyBatisDao;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -28,8 +27,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 @ComponentScan("com.peach.common")
 public class PeachCommonStarter {
 
-    @Value("${knife4j.host:http://localhost:8888}")
-    private String host;
 
     /**
      * @description 注册bean
@@ -40,21 +37,20 @@ public class PeachCommonStarter {
      */
     @Bean
     public Docket commonApi() {
-        Contact contact = new Contact("PEACH","https://github.com/Ryan-Guizhou","huanhuanshu48@gmail.com");
-        Docket docket=new Docket(DocumentationType.SWAGGER_2)
+        Contact contact = new Contact("Ryan","https://github.com/Ryan-Guizhou","huanhuanshu48@gmail.com");
+        Docket docket = new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(new ApiInfoBuilder()
                         .title("PEACH-API文档")
                         .description("PEACH-API文档")
-                        .termsOfServiceUrl(host)
                         .contact(contact)
                         .version("PEACH-1.0.0")
                         .build())
                 //分组名称
-                .groupName("通用模块API")
+                .groupName("COMMON_API")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.peach.common"))
                 .build();
-        log.info("knife4j common has been configured");
+        log.info("knife4j COMMON_API has been configured");
         return docket;
     }
 

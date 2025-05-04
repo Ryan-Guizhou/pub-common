@@ -1,7 +1,6 @@
 package com.peach.common.entity.qo;
 
 import com.peach.common.entity.BaseEntity;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,7 +14,6 @@ import java.io.Serializable;
  * @CreateTime 2025/3/15 13:58
  */
 @Data
-@ApiModel(description = "日志请求模型")
 @EqualsAndHashCode(callSuper = true)
 public class LogQO extends BaseEntity implements Serializable {
 

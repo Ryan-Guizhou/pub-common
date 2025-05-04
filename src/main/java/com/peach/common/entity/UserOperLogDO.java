@@ -19,7 +19,6 @@ import java.util.Map;
  * @CreateTime 2025/03/14 23:12
  */
 @Data
-@ApiModel
 @Table(name = "USER_OPER_LOG")
 public class UserOperLogDO implements Serializable {
 

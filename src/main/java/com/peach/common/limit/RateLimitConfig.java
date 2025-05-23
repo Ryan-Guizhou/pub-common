@@ -1,21 +1,20 @@
-package com.peach.common.anno;
-
+package com.peach.common.limit;
 
 import com.peach.common.entity.LimitType;
-import com.peach.common.entity.RateLimitStrategy;
+import lombok.Data;
 
-import java.lang.annotation.*;
+import java.io.Serializable;
 
 /**
  * @Author Mr Shu
  * @Version 1.0.0
- * @Description 限流注解
- * @CreateTime 2025/5/18 19:44
+ * @Description 限流策略配置，用于创建限流器
+ * @CreateTime 2025/5/15 17:24
  */
-@Target({ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface RateLimit {
+@Data
+public class RateLimitConfig implements Serializable {
+
+    private static final long serialVersionUID = 2246960108932983102L;
 
     /**
      * 时间窗口大小（秒）
@@ -24,7 +23,7 @@ public @interface RateLimit {
      * - 计数器：统计周期
      * - 并发量：并发请求的超时时间
      */
-    int timeWindow() default 60;
+    private Integer timeWindow;
 
     /**
      * 最大许可数
@@ -34,15 +33,20 @@ public @interface RateLimit {
      * - 计数器：周期内最大请求数
      * - 并发量：最大并发请求数
      */
-    int maxPermits() default 100;
+    private int maxPermits;
 
     /**
      * 限流类型
      */
-    LimitType limitType() default LimitType.USER;
+    private LimitType limitType;
 
     /**
-     * 限流策略，支持固定窗口、滑动窗口、令牌桶
+     * 限流策略，支持固定窗口、滑动窗口、令牌桶、漏桶、计数器、并发量限流
      */
-    RateLimitStrategy strategy() default RateLimitStrategy.FIXED_WINDOW;
+    private String strategy;
+
+    /**
+     * 基础Key
+     */
+    private String baseKey;
 }

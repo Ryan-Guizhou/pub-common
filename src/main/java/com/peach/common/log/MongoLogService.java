@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Indexed
 @Service
-@ConditionalOnProperty(prefix = "mongo", name = "enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "log.store", name = "enable", havingValue = "mongo")
 public class MongoLogService extends AbstractLogService {
 
     @Resource

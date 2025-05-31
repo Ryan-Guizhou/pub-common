@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Indexed
 @Service
-@ConditionalOnProperty(prefix = "mysql", name = "enabled", havingValue = "false", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "log.store", name = "enabled", havingValue = "mysql", matchIfMissing = true)
 public class MysqlLogService extends AbstractLogService {
 
     @Resource

@@ -18,7 +18,6 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import redis.clients.jedis.JedisPoolConfig;
 
-import java.time.Duration;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;

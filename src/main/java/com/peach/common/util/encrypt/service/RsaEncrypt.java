@@ -35,23 +35,12 @@ public class RsaEncrypt extends EncryptAbstract {
     /**
      * 存储RSA密钥的缓存key
      */
-    private static final String RSA_KEYS = "GENERATOR:RSA:KEYS";
+    private static final String RSA_KEYS = "AUTH:RSA:KEYS";
 
     /**
      * 初始化rsa锁
      */
-    private static final String RSA_LOCK = "GENERATOR:RSA:LOCK";
-
-    /**
-     * 私钥的缓存key
-     */
-    private static final String PRIVATE_KEY = "privateKey";
-
-
-    /**
-     * 密钥的缓存key
-     */
-    private static final String PUBLIC_KEY = "publicKey";
+    private static final String RSA_LOCK = "AUTH:RSA:LOCK";
 
 
     /**
@@ -95,11 +84,11 @@ public class RsaEncrypt extends EncryptAbstract {
      * 本地缓存获取rsa 公私钥
      * @return
      */
-    public static Map<String, String> getRsaInfo() {
+    public Map<String, String> getRsaInfo() {
         Map<String, String> rsaInfo = null;
         try {
             rsaInfo = RSA_PASS_WORD_INFO.get(RSA_KEYS, () -> redissonClient.getMapCache(RSA_KEYS));
-            if (MapUtil.isEmpty(rsaInfo) || rsaInfo.get(PRIVATE_KEY) == null || rsaInfo.get(PUBLIC_KEY) == null) {
+            if (MapUtil.isEmpty(rsaInfo) || rsaInfo.get(EncryptConstant.PRIVATE_KEY) == null || rsaInfo.get(EncryptConstant.PUBLIC_KEY) == null) {
                 initKey();
                 rsaInfo = RSA_PASS_WORD_INFO.get(RSA_KEYS, () -> redissonClient.getMapCache(RSA_KEYS));
             }
@@ -114,7 +103,7 @@ public class RsaEncrypt extends EncryptAbstract {
      */
     private static void initKey() {
         RMapCache<String, String> rsaInfo = redissonClient.getMapCache(RSA_KEYS);
-        if (MapUtil.isNotEmpty(rsaInfo) && ObjectUtil.isNotNull(rsaInfo.get(PRIVATE_KEY)) && ObjectUtil.isNotNull(rsaInfo.get(PUBLIC_KEY))) {
+        if (MapUtil.isNotEmpty(rsaInfo) && ObjectUtil.isNotNull(rsaInfo.get(EncryptConstant.PRIVATE_KEY)) && ObjectUtil.isNotNull(rsaInfo.get(EncryptConstant.PUBLIC_KEY))) {
             RSA_PASS_WORD_INFO.put(RSA_KEYS, rsaInfo);
         }
 
@@ -125,14 +114,14 @@ public class RsaEncrypt extends EncryptAbstract {
                 return;
             }
             rsaInfo = redissonClient.getMapCache(RSA_KEYS);
-            if (MapUtil.isEmpty(rsaInfo) || rsaInfo.get(PRIVATE_KEY) == null || rsaInfo.get(PUBLIC_KEY) == null) {
+            if (MapUtil.isEmpty(rsaInfo) || rsaInfo.get(EncryptConstant.PRIVATE_KEY) == null || rsaInfo.get(EncryptConstant.PUBLIC_KEY) == null) {
                 //生成加密密钥
                 RSA rsa = new RSA();
                 //私钥加密
                 String privateKey = rsa.getPrivateKeyBase64();
                 String publicKey = rsa.getPublicKeyBase64();
-                rsaInfo.put(PRIVATE_KEY, privateKey);
-                rsaInfo.put(PUBLIC_KEY, publicKey);
+                rsaInfo.put(EncryptConstant.PRIVATE_KEY, privateKey);
+                rsaInfo.put(EncryptConstant.PUBLIC_KEY, publicKey);
                 log.info("Initialization of system login rsa successful");
             }
         } catch (Exception e) {
@@ -165,7 +154,7 @@ public class RsaEncrypt extends EncryptAbstract {
         // 获取密钥工厂
         KeyFactory keyFactory = KeyFactory.getInstance(getAlgorithm());
         // 构建密钥规范 进行 Base64 解码
-        byte[] decode = Base64.getDecoder().decode(getRsaInfo().get(PRIVATE_KEY));
+        byte[] decode = Base64.getDecoder().decode(getRsaInfo().get(EncryptConstant.PRIVATE_KEY));
         PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(decode);
         // 生成私钥
         return keyFactory.generatePrivate(spec);
@@ -180,7 +169,7 @@ public class RsaEncrypt extends EncryptAbstract {
         // 获取密钥工厂
         KeyFactory keyFactory = KeyFactory.getInstance(getAlgorithm());
         // 构建密钥规范 进行 Base64 解码
-        byte[] decode = Base64.getDecoder().decode(getRsaInfo().get(PUBLIC_KEY));
+        byte[] decode = Base64.getDecoder().decode(getRsaInfo().get(EncryptConstant.PUBLIC_KEY));
         X509EncodedKeySpec spec = new X509EncodedKeySpec(decode);
         // 生成私钥
         return keyFactory.generatePublic(spec);

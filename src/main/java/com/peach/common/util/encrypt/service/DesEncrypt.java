@@ -9,6 +9,8 @@ import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * @Author Mr Shu
@@ -64,6 +66,11 @@ public class DesEncrypt extends EncryptAbstract {
         byte[] bytes = hexToByte(plaintext);
         return new String(cipher.doFinal(bytes));
 
+    }
+
+    @Override
+    public Map<String, String> getRsaInfo() throws Exception {
+        return Collections.emptyMap();
     }
 
     /**

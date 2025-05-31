@@ -5,13 +5,11 @@ import com.peach.common.util.encrypt.EncryptAbstract;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * @Author Mr Shu
@@ -63,6 +61,11 @@ public class AesEncrypt extends EncryptAbstract {
         Cipher cipher = initCipher(Cipher.DECRYPT_MODE);
         byte[] decodedBytes = hexToByte(cipherText);
         return new String(cipher.doFinal(decodedBytes), StandardCharsets.UTF_8);
+    }
+
+    @Override
+    public Map<String, String> getRsaInfo() throws Exception {
+        return Collections.emptyMap();
     }
 
     /**

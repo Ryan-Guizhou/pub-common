@@ -103,4 +103,15 @@ public interface PubCommonConst {
      * 平滑限流
      */
     String SMOOTH = "SMOOTH";
+
+
+    /**
+     * 验证方式 1、滑块验证
+     */
+    Integer VALIDATE_TYPE_IMAGE = 1;
+
+    /**
+     * 验证方式 2、邮件验证
+     */
+    Integer VALIDATE_TYPE_EMAIL = 2;
 }

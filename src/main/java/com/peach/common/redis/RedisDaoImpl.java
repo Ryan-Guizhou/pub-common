@@ -31,7 +31,7 @@ public class RedisDaoImpl extends AbstractRedisService implements IRedisDao {
     @Override
     public boolean existsKey(Object key) {
         Boolean exist =  redisTemplate.hasKey(key);
-        if (exist == null){
+        if (exist == null || !exist) {
             return Boolean.FALSE;
         }
         return Boolean.TRUE;

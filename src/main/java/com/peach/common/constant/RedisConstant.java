@@ -23,5 +23,26 @@ public interface RedisConstant {
 
     Long EXPIRE_VALIDATE_TOKEN = 300L;
 
+    /**
+     * 缓存过期时间 1个小时
+     */
+    Long EXPIRE_VALIDATE_HOUR = 3600L;
+
+    /**
+     * 缓存过期时间 1天
+     */
+    Long EXPIRE_VALIDATE_DAY = 84600L;
+
+    /**
+     * 预热相关key
+     */
+    String PRE_HEAT_REDIS_KEY = "PRE_HEAT:WITHE_LIST";
+
+    /**
+     * 预热敏感词相关key
+     */
+    String PRE_SENSITIVE_REDIS_KEY = "PRE_HEAT:SENSITIVE_WORD";
+
+
 
 }

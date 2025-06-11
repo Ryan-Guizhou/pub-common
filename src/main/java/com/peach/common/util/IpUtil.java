@@ -25,6 +25,36 @@ public class IpUtil {
     private static final String LOCALHOST_IPV4 = "127.0.0.1";
 
     /**
+     * 校验一个ip是否为有效的ipv4地址
+     */
+    private static final String IPV4_REGEX = "^([0-9]{1,3}\\.){3}[0-9]{1,3}$";
+
+    /**
+     * 校验ip地址是否为有效的ipv4地址
+     * @param ip
+     * @return
+     */
+    public static boolean isValidIpv4(String ip) {
+        if (ip == null || ip.isEmpty()) {
+            return false;
+        }
+        if (!ip.matches(IPV4_REGEX)) {
+            return false;
+        }
+        String[] parts = ip.split("\\.");
+        for (String part : parts) {
+            try {
+                int value = Integer.parseInt(part);
+                if (value < 0 || value > 255) return false;
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    /**
      * 获取IP地址
      * 使用Nginx等反向代理软件， 则不能通过request.getRemoteAddr()获取IP地址
      * 如果使用了多级反向代理的话，X-Forwarded-For的值并不止一个，而是一串IP地址，X-Forwarded-For中第一个非unknown的有效IP字符串，则为真实IP地址
@@ -75,6 +105,9 @@ public class IpUtil {
         if (!StringUtils.isEmpty(ip) && ip.indexOf(IP_UTILS_FLAG) > 0) {
             ip = ip.substring(0, ip.indexOf(IP_UTILS_FLAG));
         }
-        return ip;
+        if (isValidIpv4(ip)){
+            return ip;
+        }
+        return null;
     }
 }

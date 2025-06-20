@@ -20,9 +20,16 @@ public abstract class AbstractWrapperInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        RepeatedlyRequesWrapper wrappedRequest = request instanceof RepeatedlyRequesWrapper ? (RepeatedlyRequesWrapper) request : new RepeatedlyRequesWrapper(request);
-
-        return handleInceptor(wrappedRequest, response, handler);
+        String contentType = request.getContentType();
+        if (contentType != null && contentType.toLowerCase().startsWith("multipart/")) {
+            // multipart 请求不要包装，避免流提前关闭
+            return handleInceptor(request, response, handler);
+        } else {
+            RepeatedlyRequesWrapper wrappedRequest = request instanceof RepeatedlyRequesWrapper
+                    ? (RepeatedlyRequesWrapper) request
+                    : new RepeatedlyRequesWrapper(request);
+            return handleInceptor(wrappedRequest, response, handler);
+        }
     }
 
 

@@ -22,9 +22,16 @@ public abstract class AbstractWrapperFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        RepeatedlyRequesWrapper wrappedRequest = request instanceof RepeatedlyRequesWrapper ? (RepeatedlyRequesWrapper) request : new RepeatedlyRequesWrapper(request);
-
-        doFilter(wrappedRequest, response, filterChain);
+        String contentType = request.getContentType();
+        if (contentType != null && contentType.toLowerCase().startsWith("multipart/")) {
+            // multipart 请求不要包装，避免流提前关闭
+            filterChain.doFilter(request, response);
+        } else {
+            RepeatedlyRequesWrapper wrappedRequest = request instanceof RepeatedlyRequesWrapper
+                    ? (RepeatedlyRequesWrapper) request
+                    : new RepeatedlyRequesWrapper(request);
+            filterChain.doFilter(wrappedRequest, response);
+        }
     }
 
 
